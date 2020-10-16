@@ -1,5 +1,7 @@
 package com.bridgelabz.addressbook;
 
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,7 +32,9 @@ public class AddressBookMain {
             System.out.println("12.Sort Contact By Zip Code");
             System.out.println("13.Write Address Book to file");
             System.out.println("14.Read Address Book from file");
-            System.out.println("15.Exit");
+            System.out.println("15.Write Address Book to CSV file USing OpenCSV");
+            System.out.println("16.Read Address Book from  CSV file Using OpenCSV");
+            System.out.println("17.Exit");
             System.out.println("Enter choice: ");
             int option = scanner.nextInt();
             switch (option) {
@@ -128,7 +132,31 @@ public class AddressBookMain {
                     }
                     break;
                 }
-                case 15:{
+                case 15: {
+                    System.out.println("Enter the name of address Book to write");
+                    String BookName = scanner.next();
+                    AddressBook book = bookList.get(BookName);
+                    System.out.println("Writing to file");
+                    try{
+                        book.writeAddressBookUsingOpenCSV(BookName);
+                    }catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e){
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case 16:{
+                    System.out.println("Enter the name of address Book to read");
+                    String addressBookName = scanner.next();
+                    AddressBook book = bookList.get(addressBookName);
+                    System.out.println("Reading from file");
+                    try{
+                        book.readAddressBookUSingOpenCSV(addressBookName);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case 17:{
                     flag = false;
                     break;
                 }

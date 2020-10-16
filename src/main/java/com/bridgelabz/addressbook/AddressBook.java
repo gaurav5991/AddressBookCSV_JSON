@@ -1,6 +1,5 @@
 package com.bridgelabz.addressbook;
 
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -234,5 +233,36 @@ public class AddressBook {
             e.printStackTrace();
         }
      }
+    /*Read File Using OpenCSV*/
+    public void readAddressBookUSingOpenCSV(String AddressBookName) throws IOException {
+        Path filePath = Paths.get("C:\\Users\\Gaurav\\Downloads\\Contacts.csv");
+        try (Reader reader = Files.newBufferedReader(filePath);) {
+            CsvToBean csvToBean = new CsvToBeanBuilder(reader).withType(Contact.class).withIgnoreLeadingWhiteSpace(true).build();
+            Iterator<Contact> AddressBookIterator = csvToBean.iterator();
+            while (AddressBookIterator.hasNext()) {
+                Contact contact = AddressBookIterator.next();
+                System.out.println("Firstname : " + contact.first_name);
+                System.out.println("Lastname : " + contact.last_name);
+                System.out.println("Address : " + contact.address);
+                System.out.println("City : " + contact.city);
+                System.out.println("State : " + contact.state);
+                System.out.println("Zip : " + contact.zip_code);
+                System.out.println("Phone number : " + contact.phone_number);
+                System.out.println("Email : " + contact.email);
+                System.out.println("============================");
+            }
+        }
+    }
+    /*Write to CSV file*/
+    public void writeAddressBookUsingOpenCSV(String AddressBookName)
+            throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+        Path filePath = Paths.get("C:\\Users\\Gaurav\\Downloads\\Contacts.csv");;
+        if (Files.notExists(filePath))
+            Files.createFile(filePath);
+        try (Writer writer = Files.newBufferedWriter(filePath);) {
+            StatefulBeanToCsv<Contact> beanToCsv = new StatefulBeanToCsvBuilder(writer).withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).build();
+            beanToCsv.write(contactList);
+        }
+    }
 }
 
