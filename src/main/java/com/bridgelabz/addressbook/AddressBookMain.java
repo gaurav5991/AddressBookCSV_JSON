@@ -34,7 +34,9 @@ public class AddressBookMain {
             System.out.println("14.Read Address Book from file");
             System.out.println("15.Write Address Book to CSV file USing OpenCSV");
             System.out.println("16.Read Address Book from  CSV file Using OpenCSV");
-            System.out.println("17.Exit");
+            System.out.println("17.Write Address Book to JSON File");
+            System.out.println("18.Read Address Book from JSON File");
+            System.out.println("19.Exit");
             System.out.println("Enter choice: ");
             int option = scanner.nextInt();
             switch (option) {
@@ -156,7 +158,31 @@ public class AddressBookMain {
                     }
                     break;
                 }
-                case 17:{
+                case 17: {
+                    System.out.println("Enter the name of address Book to write");
+                    String BookName = scanner.next();
+                    AddressBook book = bookList.get(BookName);
+                    System.out.println("Writing to file");
+                    try{
+                        book.writeToJsonFile(BookName);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case 18:{
+                    System.out.println("Enter the name of address Book to read");
+                    String addressBookName = scanner.next();
+                    AddressBook book = bookList.get(addressBookName);
+                    System.out.println("Reading from file");
+                    try{
+                        book.readFromJsonFile(addressBookName);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case 19:{
                     flag = false;
                     break;
                 }

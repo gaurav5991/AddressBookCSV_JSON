@@ -1,5 +1,6 @@
 package com.bridgelabz.addressbook;
 
+import com.google.gson.Gson;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -262,6 +263,35 @@ public class AddressBook {
         try (Writer writer = Files.newBufferedWriter(filePath);) {
             StatefulBeanToCsv<Contact> beanToCsv = new StatefulBeanToCsvBuilder(writer).withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).build();
             beanToCsv.write(contactList);
+        }
+    }
+    /*Write File Using JSON*/
+    public void writeToJsonFile(String AddressBookName) throws IOException {
+        Path filePath = Paths.get("C:\\Users\\Gaurav\\Downloads\\Contacts.json");
+        Gson gson = new Gson();
+        String json = gson.toJson(contactList);
+        FileWriter writer = new FileWriter(String.valueOf(filePath));
+        writer.write(json);
+        writer.close();
+    }
+
+    /*Read Data From JSON File*/
+    public void readFromJsonFile(String AddressBookName) throws IOException {
+        Path filePath = Paths.get("C:\\Users\\Gaurav\\Downloads\\Contacts.json");
+        Gson gson = new Gson();
+        BufferedReader br = new BufferedReader(new FileReader(String.valueOf(filePath)));
+        Contact[] contact = gson.fromJson(br, Contact[].class);
+        List<Contact> contactList = Arrays.asList(contact);
+        for (Contact con : contactList) {
+            System.out.println("Firstname : " + con.first_name);
+            System.out.println("Lastname : " + con.last_name);
+            System.out.println("Address : " + con.address);
+            System.out.println("City : " + con.city);
+            System.out.println("State : " + con.state);
+            System.out.println("Zip : " + con.zip_code);
+            System.out.println("Phone number : " + con.phone_number);
+            System.out.println("Email : " + con.email);
+            System.out.println("**********************************");
         }
     }
 }
