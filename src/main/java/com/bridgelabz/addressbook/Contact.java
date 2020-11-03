@@ -2,6 +2,8 @@ package com.bridgelabz.addressbook;
 
 import com.opencsv.bean.CsvBindByName;
 
+import java.util.Objects;
+
 public class Contact {
     @CsvBindByName
     public String first_name;
@@ -81,6 +83,19 @@ public class Contact {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setType_id(int type_id) {
+        this.type_id = type_id;
+    }
+
+    public void setContact_type(String contact_type) {
+        this.contact_type = contact_type;
+    }
+
     /* getter Method */
 
     public String getFirst_name() {
@@ -115,6 +130,18 @@ public class Contact {
         return email;
     }
 
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public int getType_id() {
+        return type_id;
+    }
+
+    public String getContact_type() {
+        return contact_type;
+    }
+
     /*Parameterized Constructor*/
 
     public Contact(String first_name, String last_name, String address, String city, String state, String zip_code, String phone_number, String email) {
@@ -130,7 +157,41 @@ public class Contact {
 
     @Override
     public String toString() {
-        return "ContactDetails: FirstName=" + first_name + ", LastName=" + last_name + ", address=" + address + ", city="
-                + city + ", state=" + state + ", email=" + email + ", zip=" + zip_code + ", phoneNumber=" + phone_number;
+        return "Contact{" +
+                "first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip_code='" + zip_code + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", email='" + email + '\'' +
+                ", user_id=" + user_id +
+                ", type_id=" + type_id +
+                ", contact_type='" + contact_type + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return user_id == contact.user_id &&
+                type_id == contact.type_id &&
+                Objects.equals(first_name, contact.first_name) &&
+                Objects.equals(last_name, contact.last_name) &&
+                Objects.equals(address, contact.address) &&
+                Objects.equals(city, contact.city) &&
+                Objects.equals(state, contact.state) &&
+                Objects.equals(zip_code, contact.zip_code) &&
+                Objects.equals(phone_number, contact.phone_number) &&
+                Objects.equals(email, contact.email) &&
+                Objects.equals(contact_type, contact.contact_type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first_name, last_name, address, city, state, zip_code, phone_number, email, user_id, type_id, contact_type);
     }
 }
