@@ -1,7 +1,9 @@
 package com.bridgelabz.addressbook;
 
+import com.mysql.cj.jdbc.jmx.LoadBalanceConnectionGroupManager;
 import com.opencsv.bean.CsvBindByName;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Contact {
@@ -32,11 +34,14 @@ public class Contact {
     public int user_id;
     public int type_id;
     public String contact_type;
+    public LocalDate startDate;
 
     public Contact() {
     }
 
-    public Contact(String first_name, String last_name, String address, String city, String state, String zip_code, String phone_number, String email, int user_id, int type_id, String contact_type) {
+    public Contact(String first_name, String last_name, String address, String city,
+                   String state, String zip_code, String phone_number, String email,
+                   int user_id, int type_id, String contact_type, LocalDate startDate) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.address = address;
@@ -48,6 +53,7 @@ public class Contact {
         this.user_id = user_id;
         this.type_id = type_id;
         this.contact_type = contact_type;
+        this.startDate = startDate;
     }
 
     /* setter Methods*/
@@ -96,6 +102,10 @@ public class Contact {
         this.contact_type = contact_type;
     }
 
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     /* getter Method */
 
     public String getFirst_name() {
@@ -142,6 +152,10 @@ public class Contact {
         return contact_type;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
     /*Parameterized Constructor*/
 
     public Contact(String first_name, String last_name, String address, String city, String state, String zip_code, String phone_number, String email) {
@@ -169,6 +183,7 @@ public class Contact {
                 ", user_id=" + user_id +
                 ", type_id=" + type_id +
                 ", contact_type='" + contact_type + '\'' +
+                ", startDate=" + startDate +
                 '}';
     }
 
@@ -187,11 +202,12 @@ public class Contact {
                 Objects.equals(zip_code, contact.zip_code) &&
                 Objects.equals(phone_number, contact.phone_number) &&
                 Objects.equals(email, contact.email) &&
-                Objects.equals(contact_type, contact.contact_type);
+                Objects.equals(contact_type, contact.contact_type) &&
+                Objects.equals(startDate, contact.startDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(first_name, last_name, address, city, state, zip_code, phone_number, email, user_id, type_id, contact_type);
+        return Objects.hash(first_name, last_name, address, city, state, zip_code, phone_number, email, user_id, type_id, contact_type, startDate);
     }
 }

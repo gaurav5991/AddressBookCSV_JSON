@@ -1,6 +1,7 @@
 package com.bridgelabz.addressbook;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class AddressBookDBService {
                 String phone_number = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 String contact_type = resultSet.getString("type_of_contact");
-                ContactList.add(new Contact(first_name, last_name, address, city, state, zip_code, phone_number, email, user_id, type_id, contact_type));
+                LocalDate startDate = resultSet.getDate("date_added").toLocalDate();
+                ContactList.add(new Contact(first_name, last_name, address, city, state, zip_code, phone_number, email, user_id, type_id, contact_type,startDate));
             }
         } catch (SQLException e) {
             throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.SQL_EXCEPTION);
@@ -108,5 +110,13 @@ public class AddressBookDBService {
         } catch (SQLException e) {
             throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.SQL_EXCEPTION);
         }
+    }
+    /*Method to get number of contacts added for given date range*/
+    public List<Contact> readContactDataForDateRange(LocalDate startDate, LocalDate endDate) throws AddressBookException {
+        String sql = String.format("select * from user_details join contact on user_details.user_id = contact.user_id " +
+                "join location on location.user_id = user_details.user_id\n" +
+                "join user_contact_type_link on user_contact_type_link.user_id = user_details.user_id\n" +
+                " join contact_type on contact_type.type_id = user_contact_type_link.type_id where user_details.date_added between '%s' and '%s'; ", Date.valueOf(startDate), Date.valueOf(endDate));
+        return this.getAddressBookUsingDB(sql);
     }
 }

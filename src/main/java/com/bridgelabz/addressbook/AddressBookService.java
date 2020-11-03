@@ -1,9 +1,16 @@
 package com.bridgelabz.addressbook;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class AddressBookService {
     private List<Contact> contactList;
+
+    public List<Contact> readContactDataForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) throws AddressBookException {
+        if(ioService.equals(IOService.DB_IO))
+           this.contactList = new AddressBookDBService().readContactDataForDateRange(startDate,endDate);
+        return this.contactList;
+    }
 
     enum IOService {
         DB_IO
