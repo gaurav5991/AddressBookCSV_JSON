@@ -3,7 +3,9 @@ package com.bridgelabz.addressbook;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookDBService {
     private PreparedStatement contactDataStatement;
@@ -57,7 +59,7 @@ public class AddressBookDBService {
                 String email = resultSet.getString("email");
                 String contact_type = resultSet.getString("type_of_contact");
                 LocalDate startDate = resultSet.getDate("date_added").toLocalDate();
-                ContactList.add(new Contact(first_name, last_name, address, city, state, zip_code, phone_number, email, user_id, type_id, contact_type,startDate));
+                ContactList.add(new Contact(first_name, last_name, address, city, state, zip_code, phone_number, email, user_id, type_id, contact_type, startDate));
             }
         } catch (SQLException e) {
             throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.SQL_EXCEPTION);
@@ -111,6 +113,7 @@ public class AddressBookDBService {
             throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.SQL_EXCEPTION);
         }
     }
+
     /*Method to get number of contacts added for given date range*/
     public List<Contact> readContactDataForDateRange(LocalDate startDate, LocalDate endDate) throws AddressBookException {
         String sql = String.format("select * from user_details join contact on user_details.user_id = contact.user_id " +
@@ -118,5 +121,35 @@ public class AddressBookDBService {
                 "join user_contact_type_link on user_contact_type_link.user_id = user_details.user_id\n" +
                 " join contact_type on contact_type.type_id = user_contact_type_link.type_id where user_details.date_added between '%s' and '%s'; ", Date.valueOf(startDate), Date.valueOf(endDate));
         return this.getAddressBookUsingDB(sql);
+    }
+
+    /*Method to read Contact by State*/
+    public Map<String, String> readContactByState() {
+        String sql = "select user_details.first_name as first_name,location.state as state from user_details " +
+                "inner join location on user_details.user_id = location.user_id";
+        return getAggregateByParameter("first_name", "state", sql);
+    }
+
+    private Map<String, String> getAggregateByParameter(String first_name, String option, String sql) {
+        Map<String, String> CountMap = new HashMap<>();
+        try (Connection connection = this.getConnection();) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String getResult1 = resultSet.getString(option);
+                String getResult2 = resultSet.getString(first_name);
+                CountMap.put(getResult1, getResult2);
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        return CountMap;
+    }
+
+    /*Method to read Contact by City*/
+    public Map<String, String> readContactByCity() {
+        String sql = "select user_details.first_name as first_name,location.city as city from user_details " +
+                "inner join location on user_details.user_id = location.user_id";
+        return getAggregateByParameter("first_name", "city", sql);
     }
 }

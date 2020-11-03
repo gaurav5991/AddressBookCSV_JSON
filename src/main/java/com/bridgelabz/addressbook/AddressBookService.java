@@ -2,15 +2,10 @@ package com.bridgelabz.addressbook;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookService {
     private List<Contact> contactList;
-
-    public List<Contact> readContactDataForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) throws AddressBookException {
-        if(ioService.equals(IOService.DB_IO))
-           this.contactList = new AddressBookDBService().readContactDataForDateRange(startDate,endDate);
-        return this.contactList;
-    }
 
     enum IOService {
         DB_IO
@@ -51,5 +46,26 @@ public class AddressBookService {
     public boolean checkEmployeePayrollInSyncWithDB(String first_name) throws AddressBookException {
         List<Contact> contactList = new AddressBookDBService().getContactData(first_name);
         return contactList.get(0).equals(getContactData(first_name));
+    }
+
+    /*Method to read Contact Added within given date range*/
+    public List<Contact> readContactDataForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) throws AddressBookException {
+        if (ioService.equals(IOService.DB_IO))
+            this.contactList = new AddressBookDBService().readContactDataForDateRange(startDate, endDate);
+        return this.contactList;
+    }
+
+    /*Method to read Contact by State*/
+    public Map<String, String> readContactByState(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            return new AddressBookDBService().readContactByState();
+        return null;
+    }
+
+    /*Method to read Contact by City*/
+    public Map<String, String> readContactByCity(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            return new AddressBookDBService().readContactByCity();
+        return null;
     }
 }
