@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static com.bridgelabz.addressbook.AddressBookService.IOService.DB_IO;
 
@@ -17,7 +18,7 @@ public class AddressBookMainTest {
         List<Contact> contactList = addressBookService.readAddressBookData(DB_IO);
         Assert.assertEquals(3,contactList.size());
     }
-    /*Test Case to check the contcat details updated in database using JDBC*/
+    /*Test Case to check the contact details updated in database using JDBC*/
     @Test
     public void givenNewInformationOfContact_WhenUpdatedShouldMatch() throws AddressBookException {
         AddressBookService addressBookService = new AddressBookService();
@@ -36,5 +37,21 @@ public class AddressBookMainTest {
         LocalDate endDate = LocalDate.now();
         List<Contact> contactList = addressBookService.readContactDataForDateRange(DB_IO, startDate, endDate);
         Assert.assertEquals(2,contactList.size());
+    }
+    /*Test Case to check the number of retrieved contacts from database by state Name*/
+    @Test
+    public void givenStateNameWhenRetrievedShouldReturnCorrectMatch() throws AddressBookException {
+        AddressBookService addressBookService = new AddressBookService();
+        addressBookService.readAddressBookData(DB_IO);
+        Map<String,String> ContactByState = addressBookService.readContactByState(DB_IO);
+        Assert.assertTrue(ContactByState.get("Wales").equals("Michael"));
+    }
+    /*Test Case to check the number of retrieved contacts from database by City Name*/
+    @Test
+    public void givenCityNameWhenRetrievedShouldReturnCorrectMatch() throws AddressBookException {
+        AddressBookService addressBookService = new AddressBookService();
+        addressBookService.readAddressBookData(DB_IO);
+        Map<String,String> ContactByCity = addressBookService.readContactByCity(DB_IO);
+        Assert.assertTrue(ContactByCity.get("Bradford").equals("Michael"));
     }
 }
