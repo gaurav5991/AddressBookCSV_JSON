@@ -55,10 +55,10 @@ public class AddressBook {
         String state =sc.next();
 
         System.out.println("Enter Zip Code: ");
-        int zip = sc.nextInt();
+        String zip = sc.next();
 
         System.out.println("Enter Phone Number:");
-        long phonenumber = sc.nextLong();
+        String phonenumber = sc.next();
 
         System.out.println("Enter Email: ");
         String email = sc.next();
@@ -140,14 +140,14 @@ public class AddressBook {
                     case 6:
                     {
                         System.out.println("Enter Zip Code: ");
-                        int zip = sc.nextInt();
+                        String zip = sc.next();
                         contact.setZip_code(zip);
                         break;
                     }
                     case 7:
                     {
                         System.out.println("Enter Phone Number:");
-                        long phonenumber = sc.nextLong();
+                        String phonenumber = sc.next();
                         contact.setPhone_number(phonenumber);
                         break;
                     }
