@@ -34,6 +34,17 @@ public class AddressBookService {
             contact.setLast_name(last_name);
     }
 
+    /*Method to add Contact to AddressBook*/
+    public void addContactToAddressBook(String firstName, String lastName, String address,
+                                        String city, String state, String zip, String phone,
+                                        String email, LocalDate date, int user_id,
+                                        int type_id, String type_of_contact) throws AddressBookException {
+        contactList.add(new AddressBookDBService().
+                addContact(firstName, lastName, address, city, state, zip, phone, email,
+                        date, user_id, type_id, type_of_contact));
+    }
+
+
     /*Method to get Contact using first name*/
     private Contact getContactData(String first_name) {
         return this.contactList.stream()

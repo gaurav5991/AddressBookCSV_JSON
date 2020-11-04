@@ -1,6 +1,5 @@
 package com.bridgelabz.addressbook;
 
-import com.mysql.cj.jdbc.jmx.LoadBalanceConnectionGroupManager;
 import com.opencsv.bean.CsvBindByName;
 
 import java.time.LocalDate;

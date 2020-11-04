@@ -2,7 +2,7 @@ package com.bridgelabz.addressbook;
 
 public class AddressBookException extends Exception{
     enum ExceptionType{
-        SQL_EXCEPTION, UNABLE_TO_UPDATE
+        SQL_EXCEPTION, UNABLE_TO_UPDATE,UNABLE_TO_ROLLBACK
     }
     ExceptionType type;
 
