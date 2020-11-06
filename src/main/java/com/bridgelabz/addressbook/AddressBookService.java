@@ -1,22 +1,22 @@
 package com.bridgelabz.addressbook;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class AddressBookService {
     public List<Contact> contactList;
 
-    public void addMultipleContactsToDB(List<Contact> contactList) {
-        new AddressBookDBService().addMultipleContactsToDB(contactList);
+    public AddressBookService() {
     }
 
-    public int countEntries() {
-        return contactList.size();
+    public AddressBookService(List<Contact> contactList) {
+        contactList = new ArrayList<>();
     }
 
     enum IOService {
-        DB_IO
+        DB_IO,REST_IO
     }
 
     /* Method to read Contact From AddressBook*/
@@ -50,6 +50,21 @@ public class AddressBookService {
         contactList.add(new AddressBookDBService().
                 addContact(firstName, lastName, address, city, state, zip, phone, email,
                         date, user_id, type_id, type_of_contact));
+    }
+
+    /*Method to add Multiple Contact to AddressBook*/
+    public void addMultipleContactsToDB(List<Contact> contactList) {
+        new AddressBookDBService().addMultipleContactsToDB(contactList);
+    }
+
+    public long countEntries(IOService ioService) {
+        long entries = 0;
+        if(ioService.equals(IOService.DB_IO)){
+            entries =  contactList.size();
+        }else  if(ioService.equals(IOService.REST_IO)){
+            entries = contactList.size();
+        }
+        return entries;
     }
 
 

@@ -1,0 +1,38 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "firstname": "Virat",
+      "lastname": "Kohli",
+      "type":"Friend",
+      "address":"Vasant Vihar",
+      "city":"Delhi",
+      "state":"Delhi",
+      "zip":"1234567",
+      "number":"9998887776",
+      "email":"virat@gmail.com",
+      "date": {
+        "year": 2019,
+        "month": 12,
+        "day": 3
+      }
+    },
+    {
+      "id": 2,
+      "firstname": "Rohit",
+      "lastname": "Sharma",
+      "type":"Family",
+      "address":"Andheri",
+      "city":"Mumbai",
+      "state":"Maharashtra",
+      "zip":"432567",
+      "number":"9645612382",
+      "email":"rohit@gmail.com",
+      "date": {
+        "year": 2018,
+        "month": 1,
+        "day": 25
+      }
+    }
+  ]
+}
