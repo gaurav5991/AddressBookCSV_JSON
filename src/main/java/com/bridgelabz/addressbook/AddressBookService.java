@@ -42,6 +42,12 @@ public class AddressBookService {
             contact.setLast_name(last_name);
     }
 
+    public void addContactToAddressBook(Contact contact, IOService ioService) throws AddressBookException {
+        if(ioService.equals(IOService.DB_IO))
+            this.addContactToAddressBook(contact.getFirst_name(),contact.getLast_name(),contact.getAddress(),contact.getCity(),contact.getState(),contact.getZip_code(),contact.getPhone_number(),contact.getEmail(),contact.getStartDate(),contact.getUser_id(),contact.getType_id(),contact.getContact_type());
+        else
+            contactList.add(contact);
+    }
     /*Method to add Contact to AddressBook*/
     public void addContactToAddressBook(String firstName, String lastName, String address,
                                         String city, String state, String zip, String phone,
