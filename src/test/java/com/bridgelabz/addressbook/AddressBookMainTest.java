@@ -3,7 +3,10 @@ package com.bridgelabz.addressbook;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -66,5 +69,21 @@ public class AddressBookMainTest {
         addressBookService.addContactToAddressBook("Adams", "Baker", "Street 2", "Mexico", "California", "123456", "98675453421", "abc@gmail.com", LocalDate.now(), 110, 210, "friend");
         boolean result = addressBookService.checkEmployeePayrollInSyncWithDB("Adams");
         Assert.assertTrue(result);
+    }
+
+    /*Test Case to add multiple employee when Added to AddressBook DataBase using MultiThreading*/
+    @Test
+    public void given5NewContactEntries_WhenAddedUsingMultithreading_ShouldSyncWithDB() throws AddressBookException {
+        AddressBookService addressBookService = new AddressBookService();
+        addressBookService.readAddressBookData(DB_IO);
+        Contact[] arrayOfContacts = {
+                new Contact("Saurav", "Raj", "X-908", "Dhanbad", "Jharkhand", "545454", "767346743", "saurav@xya.com", 124, 125, "Home", LocalDate.now()),
+                new Contact("Prince", "Jha", "X-910", "Ranchi", "Karnataka", "54654", "8746723", "prince@xya.com", 134, 147, "Relatives", LocalDate.now()),
+                new Contact("Kolhan", "Kotla", "Y-908", "Mumbai", "Maharashtra", "263253", "672547", "abc@xya.com", 134, 126, "College Friends", LocalDate.now())};
+        Instant threadStart = Instant.now();
+        addressBookService.addMultipleContactsToDB(Arrays.asList(arrayOfContacts));
+        Instant threadEnd = Instant.now();
+        System.out.println("Duration with thread: " + Duration.between(threadStart, threadEnd));
+        Assert.assertEquals(7, addressBookService.countEntries());
     }
 }
