@@ -5,7 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 public class AddressBookService {
-    private List<Contact> contactList;
+    public List<Contact> contactList;
+
+    public void addMultipleContactsToDB(List<Contact> contactList) {
+        new AddressBookDBService().addMultipleContactsToDB(contactList);
+    }
+
+    public int countEntries() {
+        return contactList.size();
+    }
 
     enum IOService {
         DB_IO

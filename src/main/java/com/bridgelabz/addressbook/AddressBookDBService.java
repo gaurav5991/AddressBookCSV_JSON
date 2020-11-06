@@ -267,4 +267,35 @@ public class AddressBookDBService {
         }
         return contact;
     }
+
+    /*Method to add Multiple Contacts*/
+    public void addMultipleContactsToDB(List<Contact> contactDetailsDataList) {
+        Map<Integer, Boolean> contactAdditionStatus = new HashMap<>();
+        contactDetailsDataList.forEach(contactEntry ->
+                {
+                    Runnable task = () -> {
+                        contactAdditionStatus.put(contactEntry.hashCode(), false);
+                        System.out.println("Contact Entry Being Added: "+Thread.currentThread().getName());
+                        try {
+                            this.addContact(contactEntry.getFirst_name(), contactEntry.getFirst_name(), contactEntry.getAddress(), contactEntry.getCity(),
+                                    contactEntry.getState(), contactEntry.getZip_code(), contactEntry.getPhone_number(), contactEntry.getEmail(), contactEntry.getStartDate(),
+                            contactEntry.getUser_id(), contactEntry.getType_id(), contactEntry.getContact_type());
+                        } catch (AddressBookException e) {
+                            System.out.println("Unable to add contact entry to DB");
+                        }
+                        contactAdditionStatus.put(contactEntry.hashCode(), true);
+                        System.out.println("Contact Entry Added: " + Thread.currentThread().getName());
+                    };
+                    Thread thread = new Thread(task, contactEntry.getFirst_name());
+                    thread.start();
+                }
+        );
+        while(contactAdditionStatus.containsValue(false)) {
+            try {
+                Thread.sleep(10);
+            } catch(InterruptedException e) {
+                System.out.println("Unable to sleep");
+            }
+        }
+    }
 }
