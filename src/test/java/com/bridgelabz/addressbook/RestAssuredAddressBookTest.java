@@ -74,7 +74,7 @@ public class RestAssuredAddressBookTest {
         long entries = addressBookService.countEntries(REST_IO);
         Assert.assertEquals(6,entries);
     }
-    
+
     @Test
     public void givenNewAddress_whenUpdated_shouldMatch200Response() throws AddressBookException {
         Contact[] arrayOfContacts = getContactList();
