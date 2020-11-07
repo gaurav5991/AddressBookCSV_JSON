@@ -84,6 +84,6 @@ public class AddressBookMainTest {
         addressBookService.addMultipleContactsToDB(Arrays.asList(arrayOfContacts));
         Instant threadEnd = Instant.now();
         System.out.println("Duration with thread: " + Duration.between(threadStart, threadEnd));
-        Assert.assertEquals(7, addressBookService.countEntries());
+        Assert.assertEquals(6, addressBookService.countEntries(DB_IO));
     }
 }
