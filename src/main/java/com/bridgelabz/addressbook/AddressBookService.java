@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AddressBookService {
     public List<Contact> contactList;
@@ -109,5 +110,10 @@ public class AddressBookService {
         if (ioService.equals(IOService.DB_IO))
             return new AddressBookDBService().readContactByCity();
         return null;
+    }
+    //Delete Contact
+    public int deleteContact(String name){
+        contactList = contactList.stream().filter(contact -> !contact.getFirst_name().equals(name)).collect(Collectors.toList());
+        return contactList.size();
     }
 }
