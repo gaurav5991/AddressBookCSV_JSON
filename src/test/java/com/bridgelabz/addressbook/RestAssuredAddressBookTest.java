@@ -79,8 +79,8 @@ public class RestAssuredAddressBookTest {
     public void givenNewAddress_whenUpdated_shouldMatch200Response() throws AddressBookException {
         Contact[] arrayOfContacts = getContactList();
         AddressBookService addressBookService = new AddressBookService(Arrays.asList(arrayOfContacts));
-        addressBookService.updateContactInformation("Priyal","RK Apartments",REST_IO);
-        Contact contact = addressBookService.getContactData("Priyal");
+        addressBookService.updateContactInformation("Gaurav","RK Apartments",REST_IO);
+        Contact contact = addressBookService.getContactData("Gaurav");
 
         String contactJson = new Gson().toJson(contact);
         RequestSpecification request = RestAssured.given();
@@ -89,5 +89,21 @@ public class RestAssuredAddressBookTest {
         Response response = request.put("/contacts/"+contact.getUser_id());
         int statusCode = response.getStatusCode();
         Assert.assertEquals(200,statusCode);
+    }
+
+    @Test
+    public void givenContactToDelete_whenDeleted_shouldMatch200ResponseAndCount(){
+        Contact[] arrayOfContacts = getContactList();
+        AddressBookService  addressBookService = new AddressBookService(Arrays.asList(arrayOfContacts));
+        Contact contact = addressBookService.getContactData("Sonal");
+
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type","application/json");
+        Response response = request.delete("/contacts/"+contact.getUser_id());
+        int statusCode = response.getStatusCode();
+        Assert.assertEquals(200,statusCode);
+
+        int entries = addressBookService.deleteContact(contact.getFirst_name());
+        Assert.assertEquals(5,entries);
     }
 }
