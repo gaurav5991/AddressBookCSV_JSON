@@ -74,4 +74,20 @@ public class RestAssuredAddressBookTest {
         long entries = addressBookService.countEntries(REST_IO);
         Assert.assertEquals(6,entries);
     }
+    
+    @Test
+    public void givenNewAddress_whenUpdated_shouldMatch200Response() throws AddressBookException {
+        Contact[] arrayOfContacts = getContactList();
+        AddressBookService addressBookService = new AddressBookService(Arrays.asList(arrayOfContacts));
+        addressBookService.updateContactInformation("Priyal","RK Apartments",REST_IO);
+        Contact contact = addressBookService.getContactData("Priyal");
+
+        String contactJson = new Gson().toJson(contact);
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type","application/json");
+        request.body(contactJson);
+        Response response = request.put("/contacts/"+contact.getUser_id());
+        int statusCode = response.getStatusCode();
+        Assert.assertEquals(200,statusCode);
+    }
 }

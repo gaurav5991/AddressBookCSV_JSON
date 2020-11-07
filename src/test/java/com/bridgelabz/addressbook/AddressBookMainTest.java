@@ -27,7 +27,7 @@ public class AddressBookMainTest {
     public void givenNewInformationOfContact_WhenUpdatedShouldMatch() throws AddressBookException {
         AddressBookService addressBookService = new AddressBookService();
         List<Contact> contactList = addressBookService.readAddressBookData(DB_IO);
-        addressBookService.updateContactInformation("Alex", "Carey");
+        addressBookService.updateContactInformation("Alex", "Carey",DB_IO);
         boolean result = addressBookService.checkEmployeePayrollInSyncWithDB("Alex");
         Assert.assertTrue(result);
     }

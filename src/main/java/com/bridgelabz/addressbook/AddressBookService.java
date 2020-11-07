@@ -28,18 +28,20 @@ public class AddressBookService {
     }
 
     /*method to update contact information in Database*/
-    public void updateContactInformation(String first_name, String last_name) throws AddressBookException {
-        int result = new AddressBookDBService().updateContactData(first_name, last_name);
-        if (result == 0) {
-            try {
-                throw new AddressBookException(AddressBookException.ExceptionType.UNABLE_TO_UPDATE);
-            } catch (AddressBookException e) {
-                e.printStackTrace();
-            }
-        }
-        Contact contact = this.getContactData(first_name);
-        if (contact != null)
-            contact.setLast_name(last_name);
+    public void updateContactInformation(String first_name, String last_name,IOService ioService) throws AddressBookException {
+       if(ioService.equals(IOService.DB_IO)){
+           int result = new AddressBookDBService().updateContactData(first_name, last_name);
+           if (result == 0) {
+               try {
+                   throw new AddressBookException(AddressBookException.ExceptionType.UNABLE_TO_UPDATE);
+               } catch (AddressBookException e) {
+                   e.printStackTrace();
+               }
+           }
+           Contact contact = this.getContactData(first_name);
+           if (contact != null)
+               contact.setLast_name(last_name);
+       }
     }
 
     public void addContactToAddressBook(Contact contact, IOService ioService) throws AddressBookException {
@@ -75,7 +77,7 @@ public class AddressBookService {
 
 
     /*Method to get Contact using first name*/
-    private Contact getContactData(String first_name) {
+    public Contact getContactData(String first_name) {
         return this.contactList.stream()
                 .filter(employeePayrollDataItem -> employeePayrollDataItem.getFirst_name().equals(first_name))
                 .findFirst()
