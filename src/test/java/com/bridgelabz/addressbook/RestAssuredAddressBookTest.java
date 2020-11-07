@@ -55,4 +55,23 @@ public class RestAssuredAddressBookTest {
         long entries = addressBookService.countEntries(REST_IO);
         Assert.assertEquals(4,entries);
     }
+
+    @Test
+    public void givenListOfNewContacts_whenAdded_shouldMatch201ResponseAndCount() throws AddressBookException {
+        Contact[] arrayOfContacts = getContactList();
+        AddressBookService addressBookService = new AddressBookService(Arrays.asList(arrayOfContacts));
+        Contact[] arrayOfNewContacts = {
+                new Contact("Saurav", "Raj", "X-908", "Dhanbad", "Jharkhand", "545454", "767346743", "saurav@xya.com", 124, 125, "Home", LocalDate.now()),
+                new Contact("Gaurav", "Gaj", "X-408", "Ajmer", "Rajasthan", "575454", "7677556743", "gaurav@xya.com", 144, 301, "Home", LocalDate.now())
+        };
+        for(Contact contact : arrayOfNewContacts){
+            Response response = addContactToJsonServer(contact);
+            int statusCode = response.getStatusCode();
+            Assert.assertEquals(201,statusCode);
+            contact = new Gson().fromJson(response.asString(),Contact.class);
+            addressBookService.addContactToAddressBook(contact,REST_IO);
+        }
+        long entries = addressBookService.countEntries(REST_IO);
+        Assert.assertEquals(6,entries);
+    }
 }
